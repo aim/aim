@@ -1,1 +1,1 @@
-<center>🔴</center>
+<p align="center">🔴</p>

@@ -1,65 +1,11 @@
-// SOURCE: https://www.digitalocean.com/community/tutorials/how-to-use-decorators-in-typescript
+import { test, expect } from './library/test'
 
-function classDecorator(target: Function) {
-  Object.seal(target)
-  Object.seal(target.prototype)
-
-  console.log(`Decorating class ${target}`)
+export default function (a: number, b: number): number {
+  return a + b
 }
 
-const propertyDecorator = (target: any, memberName: string) => {
-  console.log(`Decorating property ${memberName}`)
-}
-
-const accessorDecorator = (
-  target: any,
-  memberName: string,
-  propertyDescriptor: PropertyDescriptor
-) => {
-  console.log(
-    `Decorating accessor ${memberName} with descriptor ${JSON.stringify(
-      propertyDescriptor
-    )}`
-  )
-}
-
-const methodDecorator = (
-  target: any,
-  memberName: string,
-  propertyDescriptor: PropertyDescriptor
-) => {
-  console.log(
-    `Decorating method ${memberName} with descriptor ${JSON.stringify(
-      propertyDescriptor
-    )}`
-  )
-}
-
-function parameterDecorator(
-  target: Object,
-  propertyKey: string,
-  parameterIndex: number
-) {
-  console.log(`Decorating parameter ${parameterIndex} from ${propertyKey}`)
-}
-
-@classDecorator
-class Person {
-  @propertyDecorator
-  firstName: string = 'Jon'
-
-  @propertyDecorator
-  lastName: string = 'Doe'
-
-  @accessorDecorator
-  get fullName() {
-    return `${this.firstName} ${this.lastName}`
-  }
-
-  @methodDecorator
-  printName(@parameterDecorator prefix: string) {
-    console.log(`${this.firstName} ${this.lastName}`)
-  }
-}
-
-const person = new Person()
+test(module, (implementation) => {
+  const actual = implementation(2, 3)
+  const expected = 5
+  expect(actual).deepEqual(expected)
+})
